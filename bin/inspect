@@ -1,0 +1,41 @@
+#!/bin/bash
+
+dockerfile=$1
+
+docker context use colima-docker-best-practices-dev
+docker stop $(docker ps --quiet)
+docker rm $(docker ps --quiet --all)
+docker rmi --force $(docker images --quiet) 
+docker builder prune --force
+
+docker context use colima-docker-best-practices-ci
+docker stop $(docker ps --quiet)
+docker rm $(docker ps --quiet --all)
+docker rmi --force $(docker images --quiet)
+docker builder prune --force
+
+echo "[step 1] first build"
+docker build \
+  --file $dockerfile \
+  --tag docker-best-practices/app \
+  --target app \
+  .
+
+echo "[step 2] add dependencies"
+
+docker context use colima-docker-best-practices-dev
+docker compose run --rm rails yarn add -D eslint
+
+echo "[step 3] second build"
+docker context use colima-docker-best-practices-ci
+docker build \
+  --file $dockerfile \
+  --tag docker-best-practices/app \
+  --target app \
+  .
+
+echo "yarn remove eslint"
+docker context use colima-docker-best-practices-dev
+docker compose run --rm rails yarn remove eslint
+
+docker context use default

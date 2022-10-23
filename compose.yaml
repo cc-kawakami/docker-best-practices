@@ -1,0 +1,21 @@
+services:
+  rails:
+    build:
+      context: .
+      dockerfile: Dockerfile.separate-processes
+      target: dev
+    image: good-docker-pattern/dev
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/rails:cached
+      - bundle:/usr/local/bundle
+      - node_modules:/rails/node_modules
+    ports:
+      - 3000:3000
+    environment:
+      RAILS_ENV: production
+
+volumes:
+  bundle:
+  node_modules:

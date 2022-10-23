@@ -1,0 +1,4 @@
+#!/bin/bash
+
+colima stop --profile docker-best-practices-dev
+colima stop --profile docker-best-practices-ci

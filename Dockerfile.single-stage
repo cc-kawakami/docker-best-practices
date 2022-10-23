@@ -1,0 +1,13 @@
+FROM ruby:3.1 as app
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && apt-get install -y nodejs
+RUN npm install --global yarn@1.22.19
+RUN gem install bundler
+RUN mkdir -p /rails
+WORKDIR /rails
+COPY . .
+RUN bundle install
+RUN yarn install
+RUN RAILS_ENV=production bundle exec rails assets:precompile
+CMD ["bin/rails", "s"]
+
+FROM app as dev

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+colima start --profile docker-best-practices-dev --arch x86_64 --cpu 3 --env DOCKER_BUILDKIT=1
+colima start --profile docker-best-practices-ci --arch x86_64 --cpu 3 --env DOCKER_BUILDKIT=1
