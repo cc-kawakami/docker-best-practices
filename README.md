@@ -46,10 +46,7 @@ bin/clean
 
 ```bash
 => [yarn 3/4] COPY package.json yarn.lock ./
-=> [yarn 4/4] RUN yarn install
-=> CACHED [builder 1/2] RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && apt-get install -y nodejs
-=> CACHED [builder 2/2] RUN npm install --global yarn@1.22.19
-=> CACHED [assets 1/9] WORKDIR /tmp                          
+=> [yarn 4/4] RUN yarn install                    
 => CACHED [bundler 1/4] WORKDIR /tmp                         
 => CACHED [bundler 2/4] RUN gem install bundler              
 => CACHED [bundler 3/4] COPY Gemfile Gemfile.lock ./         
